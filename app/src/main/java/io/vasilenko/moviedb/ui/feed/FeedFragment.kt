@@ -38,7 +38,6 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         moviesRecyclerView.layoutManager = LinearLayoutManager(context)
-        moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
         feedSearchToolbar.searchEditText.afterTextChanged {
             Timber.d(it.toString())
