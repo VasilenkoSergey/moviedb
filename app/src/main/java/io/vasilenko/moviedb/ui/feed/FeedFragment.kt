@@ -49,7 +49,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         val moviesList = listOf(
             MainCardContainer(
                 R.string.recommended,
-                MockRepository.getMovies().map {
+                MockRepository.getRecommendedMovies().map {
                     MovieItem(it) { movie ->
                         openMovieDetails(
                             movie
@@ -64,7 +64,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         val newMoviesList = listOf(
             MainCardContainer(
                 R.string.upcoming,
-                MockRepository.getMovies().map {
+                MockRepository.getNewMovies().map {
                     MovieItem(it) { movie ->
                         openMovieDetails(movie)
                     }

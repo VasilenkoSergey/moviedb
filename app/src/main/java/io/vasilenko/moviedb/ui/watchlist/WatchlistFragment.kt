@@ -23,7 +23,7 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
         watchlistMoviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
         val moviesList =
-            MockRepository.getMovies().map {
+            MockRepository.getWatchlistMovies().map {
                 MoviePreviewItem(
                     it
                 ) { movie -> }
