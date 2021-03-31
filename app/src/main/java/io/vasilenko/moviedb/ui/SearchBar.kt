@@ -16,7 +16,7 @@ class SearchBar @JvmOverloads constructor(
     defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
 
-    private val editText: EditText by lazy { search_edit_text }
+    private val editText: EditText by lazy { searchEditText }
 
     private var hint: String = ""
     private var isCancelVisible: Boolean = true
@@ -42,20 +42,20 @@ class SearchBar @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        search_edit_text.hint = hint
-        delete_text_button.setOnClickListener {
-            search_edit_text.text.clear()
+        searchEditText.hint = hint
+        deleteTextButton.setOnClickListener {
+            searchEditText.text.clear()
         }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        search_edit_text.afterTextChanged { text ->
-            if (!text.isNullOrEmpty() && !delete_text_button.isVisible) {
-                delete_text_button.visibility = View.VISIBLE
+        searchEditText.afterTextChanged { text ->
+            if (!text.isNullOrEmpty() && !deleteTextButton.isVisible) {
+                deleteTextButton.visibility = View.VISIBLE
             }
-            if (text.isNullOrEmpty() && delete_text_button.isVisible) {
-                delete_text_button.visibility = View.GONE
+            if (text.isNullOrEmpty() && deleteTextButton.isVisible) {
+                deleteTextButton.visibility = View.GONE
             }
         }
     }

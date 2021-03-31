@@ -37,10 +37,10 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        movies_recycler_view.layoutManager = LinearLayoutManager(context)
-        movies_recycler_view.adapter = adapter.apply { addAll(listOf()) }
+        moviesRecyclerView.layoutManager = LinearLayoutManager(context)
+        moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
-        search_toolbar.search_edit_text.afterTextChanged {
+        feedSearchToolbar.searchEditText.afterTextChanged {
             Timber.d(it.toString())
             if (it.toString().length > MIN_LENGTH) {
                 openSearch(it.toString())
@@ -60,7 +60,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
             )
         )
 
-        movies_recycler_view.adapter = adapter.apply { addAll(moviesList) }
+        moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
 
         val newMoviesList = listOf(
             MainCardContainer(
@@ -90,7 +90,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     override fun onStop() {
         super.onStop()
-        search_toolbar.clear()
+        feedSearchToolbar.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
