@@ -37,7 +37,6 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Добавляем recyclerView
         movies_recycler_view.layoutManager = LinearLayoutManager(context)
         movies_recycler_view.adapter = adapter.apply { addAll(listOf()) }
 
@@ -48,7 +47,6 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
             }
         }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
         val moviesList = listOf(
             MainCardContainer(
                 R.string.recommended,
@@ -64,8 +62,6 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
         movies_recycler_view.adapter = adapter.apply { addAll(moviesList) }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        // Чтобы отобразить второй ряд фильмов
         val newMoviesList = listOf(
             MainCardContainer(
                 R.string.upcoming,
