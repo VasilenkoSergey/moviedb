@@ -1,9 +1,7 @@
 package io.vasilenko.moviedb.ui.watchlist
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -12,19 +10,10 @@ import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.MockRepository
 import kotlinx.android.synthetic.main.fragment_watchlist.*
 
-class WatchlistFragment : Fragment() {
+class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
     val adapter by lazy {
         GroupAdapter<GroupieViewHolder>()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_watchlist, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
