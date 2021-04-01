@@ -10,7 +10,7 @@ import java.util.*
 
 class TvShowItem(
     private val content: Movie
-): Item() {
+) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         Picasso.get()
