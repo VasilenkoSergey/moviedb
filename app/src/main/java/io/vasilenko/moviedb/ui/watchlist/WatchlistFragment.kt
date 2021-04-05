@@ -5,23 +5,25 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.MockRepository
-import kotlinx.android.synthetic.main.fragment_watchlist.*
+import io.vasilenko.moviedb.databinding.FragmentWatchlistBinding
+import io.vasilenko.moviedb.ui.common.viewBinding
 
 class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
 
-    val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
+    private val binding by viewBinding { FragmentWatchlistBinding.bind(it) }
+
+    private val adapter by lazy { GroupAdapter<GroupieViewHolder>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        watchlistMoviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
-        watchlistMoviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
+        initViews()
+    }
 
+    private fun initViews() {
         val moviesList =
             MockRepository.getWatchlistMovies().map {
                 MoviePreviewItem(
@@ -29,7 +31,10 @@ class WatchlistFragment : Fragment(R.layout.fragment_watchlist) {
                 ) { movie -> }
             }.toList()
 
-        watchlistMoviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
+        with(binding) {
+            watchlistMoviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
+            watchlistMoviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
+        }
     }
 
     companion object {

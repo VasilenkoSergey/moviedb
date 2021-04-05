@@ -1,28 +1,34 @@
 package io.vasilenko.moviedb.ui.feed
 
+import android.view.View
 import com.squareup.picasso.Picasso
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.item_with_text.*
+import com.xwray.groupie.viewbinding.BindableItem
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Movie
+import io.vasilenko.moviedb.databinding.ItemWithTextBinding
 
 class MovieItem(
-    private val content: Movie,
+    private val movie: Movie,
     private val onClick: (movie: Movie) -> Unit
-) : Item() {
+) : BindableItem<ItemWithTextBinding>() {
+
+    override fun initializeViewBinding(view: View): ItemWithTextBinding {
+        return ItemWithTextBinding.bind(view)
+    }
 
     override fun getLayout() = R.layout.item_with_text
 
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.description.text = content.title
-        viewHolder.movieRating.rating = content.rating
-        viewHolder.content.setOnClickListener {
-            onClick.invoke(content)
-        }
+    override fun bind(binding: ItemWithTextBinding, position: Int) {
+        with(binding) {
+            description.text = movie.title
+            movieRating.rating = movie.rating
+            content.setOnClickListener {
+                onClick.invoke(movie)
+            }
 
-        Picasso.get()
-            .load(content.imagePath)
-            .into(viewHolder.imagePreview)
+            Picasso.get()
+                .load(movie.imagePath)
+                .into(imagePreview)
+        }
     }
 }

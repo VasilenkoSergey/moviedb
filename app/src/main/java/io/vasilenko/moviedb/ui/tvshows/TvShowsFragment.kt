@@ -7,13 +7,14 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.MockRepository
-import kotlinx.android.synthetic.main.tv_shows_fragment.*
+import io.vasilenko.moviedb.databinding.TvShowsFragmentBinding
+import io.vasilenko.moviedb.ui.common.viewBinding
 
 class TvShowsFragment : Fragment(R.layout.tv_shows_fragment) {
 
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
+    private val binding by viewBinding { TvShowsFragmentBinding.bind(it) }
+
+    private val adapter by lazy { GroupAdapter<GroupieViewHolder>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,7 +26,7 @@ class TvShowsFragment : Fragment(R.layout.tv_shows_fragment) {
         val tvShows = MockRepository.getTvShows().map {
             TvShowItem(it)
         }.toList()
-        tvShowRecyclerView.adapter = adapter.apply {
+        binding.tvShowRecyclerView.adapter = adapter.apply {
             addAll(tvShows)
         }
     }
