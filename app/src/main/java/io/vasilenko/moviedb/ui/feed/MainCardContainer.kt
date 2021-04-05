@@ -16,8 +16,8 @@ class MainCardContainer(
     override fun getLayout() = R.layout.item_card
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.title_text_view.text = viewHolder.title_text_view.context.getString(title)
-        viewHolder.items_container.adapter =
+        viewHolder.titleTextView.text = viewHolder.titleTextView.context.getString(title)
+        viewHolder.itemsContainer.adapter =
             GroupAdapter<GroupieViewHolder>().apply { addAll(items) }
     }
 }

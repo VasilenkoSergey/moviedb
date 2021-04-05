@@ -1,27 +1,24 @@
 package io.vasilenko.moviedb.ui.feed
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
 import android.view.MenuInflater
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import kotlinx.android.synthetic.main.feed_fragment.*
-import kotlinx.android.synthetic.main.feed_header.*
-import kotlinx.android.synthetic.main.search_toolbar.view.*
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.MockRepository
 import io.vasilenko.moviedb.data.Movie
 import io.vasilenko.moviedb.ui.afterTextChanged
+import kotlinx.android.synthetic.main.feed_fragment.*
+import kotlinx.android.synthetic.main.feed_header.*
+import kotlinx.android.synthetic.main.search_toolbar.view.*
 import timber.log.Timber
 
-class FeedFragment : Fragment() {
+class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     private val adapter by lazy {
         GroupAdapter<GroupieViewHolder>()
@@ -36,34 +33,20 @@ class FeedFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.feed_fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Добавляем recyclerView
-        movies_recycler_view.layoutManager = LinearLayoutManager(context)
-        movies_recycler_view.adapter = adapter.apply { addAll(listOf()) }
-
-        search_toolbar.search_edit_text.afterTextChanged {
+        feedSearchToolbar.searchEditText.afterTextChanged {
             Timber.d(it.toString())
             if (it.toString().length > MIN_LENGTH) {
                 openSearch(it.toString())
             }
         }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
         val moviesList = listOf(
             MainCardContainer(
                 R.string.recommended,
-                MockRepository.getMovies().map {
+                MockRepository.getRecommendedMovies().map {
                     MovieItem(it) { movie ->
                         openMovieDetails(
                             movie
@@ -73,14 +56,12 @@ class FeedFragment : Fragment() {
             )
         )
 
-        movies_recycler_view.adapter = adapter.apply { addAll(moviesList) }
+        moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        // Чтобы отобразить второй ряд фильмов
         val newMoviesList = listOf(
             MainCardContainer(
                 R.string.upcoming,
-                MockRepository.getMovies().map {
+                MockRepository.getNewMovies().map {
                     MovieItem(it) { movie ->
                         openMovieDetails(movie)
                     }
@@ -105,7 +86,7 @@ class FeedFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        search_toolbar.clear()
+        feedSearchToolbar.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

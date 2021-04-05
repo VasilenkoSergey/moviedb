@@ -15,12 +15,11 @@ class MoviePreviewItem(
     override fun getLayout() = R.layout.item_small
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.image_preview.setOnClickListener {
+        viewHolder.imagePreview.setOnClickListener {
             onClick.invoke(content)
         }
-        // TODO Получать из модели
         Picasso.get()
-            .load("https://www.kinopoisk.ru/images/film_big/1143242.jpg")
-            .into(viewHolder.image_preview)
+            .load(content.imagePath)
+            .into(viewHolder.imagePreview)
     }
 }
