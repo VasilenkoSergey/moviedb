@@ -8,21 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.MockRepository
 import io.vasilenko.moviedb.data.Movie
-import io.vasilenko.moviedb.ui.afterTextChanged
-import kotlinx.android.synthetic.main.feed_fragment.*
-import kotlinx.android.synthetic.main.feed_header.*
-import kotlinx.android.synthetic.main.search_toolbar.view.*
+import io.vasilenko.moviedb.databinding.FeedFragmentBinding
+import io.vasilenko.moviedb.ui.common.afterTextChanged
+import io.vasilenko.moviedb.ui.common.viewBinding
 import timber.log.Timber
 
 class FeedFragment : Fragment(R.layout.feed_fragment) {
 
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
+    private val binding by viewBinding { FeedFragmentBinding.bind(it) }
+
+    private val adapter by lazy { GroupAdapter<GroupieViewHolder>() }
 
     private val options = navOptions {
         anim {
@@ -36,7 +35,11 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        feedSearchToolbar.searchEditText.afterTextChanged {
+        initViews()
+    }
+
+    private fun initViews() {
+        binding.feedHeader.feedSearchToolbar.searchEditText.afterTextChanged {
             Timber.d(it.toString())
             if (it.toString().length > MIN_LENGTH) {
                 openSearch(it.toString())
@@ -56,7 +59,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
             )
         )
 
-        moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
+        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
 
         val newMoviesList = listOf(
             MainCardContainer(
@@ -86,7 +89,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     override fun onStop() {
         super.onStop()
-        feedSearchToolbar.clear()
+        binding.feedHeader.feedSearchToolbar.clear()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,4 +1,4 @@
-package io.vasilenko.moviedb.ui
+package io.vasilenko.moviedb.ui.search
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,8 +7,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.search_toolbar.view.*
 import io.vasilenko.moviedb.R
+import io.vasilenko.moviedb.databinding.SearchToolbarBinding
+import io.vasilenko.moviedb.ui.common.afterTextChanged
 
 class SearchBar @JvmOverloads constructor(
     context: Context,
@@ -16,13 +17,18 @@ class SearchBar @JvmOverloads constructor(
     defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
 
-    private val editText: EditText by lazy { searchEditText }
+    private val editText: EditText by lazy { binding.searchEditText }
+
+    private var binding: SearchToolbarBinding =
+        SearchToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
     private var hint: String = ""
     private var isCancelVisible: Boolean = true
 
+    val searchEditText
+        get() = binding.searchEditText
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.search_toolbar, this)
         if (attrs != null) {
             context.obtainStyledAttributes(attrs, R.styleable.SearchBar).apply {
                 hint = getString(R.styleable.SearchBar_hint).orEmpty()
@@ -42,20 +48,26 @@ class SearchBar @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        searchEditText.hint = hint
-        deleteTextButton.setOnClickListener {
-            searchEditText.text.clear()
+
+        with(binding) {
+            searchEditText.hint = hint
+            deleteTextButton.setOnClickListener {
+                searchEditText.text.clear()
+            }
         }
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        searchEditText.afterTextChanged { text ->
-            if (!text.isNullOrEmpty() && !deleteTextButton.isVisible) {
-                deleteTextButton.visibility = View.VISIBLE
-            }
-            if (text.isNullOrEmpty() && deleteTextButton.isVisible) {
-                deleteTextButton.visibility = View.GONE
+
+        with(binding) {
+            searchEditText.afterTextChanged { text ->
+                if (!text.isNullOrEmpty() && !deleteTextButton.isVisible) {
+                    deleteTextButton.visibility = View.VISIBLE
+                }
+                if (text.isNullOrEmpty() && deleteTextButton.isVisible) {
+                    deleteTextButton.visibility = View.GONE
+                }
             }
         }
     }

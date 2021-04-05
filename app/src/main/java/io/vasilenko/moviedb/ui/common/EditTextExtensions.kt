@@ -1,4 +1,4 @@
-package io.vasilenko.moviedb.ui
+package io.vasilenko.moviedb.ui.common
 
 import android.text.Editable
 import android.widget.EditText
