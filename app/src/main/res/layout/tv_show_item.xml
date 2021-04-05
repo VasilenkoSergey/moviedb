@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:background="@color/blueDark">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/tvShowImage"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:layout_margin="16dp"
+        android:layout_height="@dimen/image_tvShow_width"
+        android:layout_margin="@dimen/material_margin_normal"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +20,18 @@
 
     <TextView
         android:id="@+id/tvShowTitle"
+        style="@style/movieName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:textStyle="bold"
+        android:layout_marginTop="@dimen/material_margin_small"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAllCaps="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/twShowRating"
         app:layout_constraintStart_toStartOf="@id/tvShowImage"
-        app:layout_constraintTop_toBottomOf="@id/tvShowImage" />
+        app:layout_constraintTop_toBottomOf="@id/tvShowImage"
+        tools:text="The Walking Dead The Walking DeadThe Walking Dead" />
 
     <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/twShowRating"

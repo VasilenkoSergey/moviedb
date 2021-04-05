@@ -6,7 +6,6 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Movie
 import kotlinx.android.synthetic.main.tv_show_item.*
-import java.util.*
 
 class TvShowItem(
     private val content: Movie
@@ -16,7 +15,7 @@ class TvShowItem(
         Picasso.get()
             .load(content.imagePath)
             .into(viewHolder.tvShowImage)
-        viewHolder.tvShowTitle.text = content.title?.toUpperCase(Locale.ROOT)
+        viewHolder.tvShowTitle.text = content.title
         viewHolder.twShowRating.rating = content.rating
     }
 

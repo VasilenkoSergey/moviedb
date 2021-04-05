@@ -20,4 +20,8 @@
     <dimen name="search_bar_height">56dp</dimen>
     <dimen name="min_height">100dp</dimen>
 
+    <dimen name="image_tvShow_width">105dp</dimen>
+
+    <dimen name="text_size_micro">12sp</dimen>
+
 </resources>
