@@ -67,4 +67,12 @@ object MockRepository {
 
         return moviesList
     }
+
+    fun getMovieById(stubId: Long = 0): Movie {
+        return Movie(
+            title = "Spider-Man",
+            voteAverage = 10.0,
+            imagePath = "https://www.kinopoisk.ru/images/film_big/1143242.jpg"
+        )
+    }
 }
