@@ -1,11 +1,11 @@
 package io.vasilenko.moviedb.ui.tvshows
 
 import android.view.View
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.viewbinding.BindableItem
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Movie
 import io.vasilenko.moviedb.databinding.TvShowItemBinding
+import io.vasilenko.moviedb.ui.common.load
 
 class TvShowItem(
     private val movie: Movie
@@ -17,9 +17,7 @@ class TvShowItem(
 
     override fun bind(binding: TvShowItemBinding, position: Int) {
         with(binding) {
-            Picasso.get()
-                .load(movie.imagePath)
-                .into(tvShowImage)
+            movie.imagePath?.let { tvShowImage.load(it) }
             tvShowTitle.text = movie.title
             twShowRating.rating = movie.rating
         }

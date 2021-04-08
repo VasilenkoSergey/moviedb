@@ -24,4 +24,11 @@
 
     <dimen name="text_size_micro">12sp</dimen>
 
+    <dimen name="text_size_large">22sp</dimen>
+
+    <dimen name="image_details_height">300dp</dimen>
+
+    <dimen name="quality_size">24dp</dimen>
+    <dimen name="image_actor_size">66dp</dimen>
+
 </resources>
