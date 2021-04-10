@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/mainFeedBackground"
+    android:fitsSystemWindows="true"
     app:elevation="0dp">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:minHeight="@dimen/min_height"
         app:collapsedTitleTextAppearance="@style/AppTheme.Title.Collapsed"
         app:expandedTitleTextAppearance="@style/AppTheme.Title.Expanded"

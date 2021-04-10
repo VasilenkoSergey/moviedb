@@ -1,12 +1,226 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="io.vasilenko.moviedb.ui.moviedetails.MovieDetailsFragment">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/image_details_height"
+        android:background="@color/blueDark"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/movieBackdropImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_details_height"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerBottomSize10Percent"
+                tools:src="@drawable/ic_avatar" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:theme="@style/AppThemeOverlay_Toolbar"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="?attr/homeAsUpIndicator" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/blueDark"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/content_start_guideline"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/material_margin_normal" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/content_end_guideline"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/material_margin_normal" />
+
+            <TextView
+                android:id="@+id/movieTitle"
+                style="@style/MovieTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:maxLines="2"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteCheckbox"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Aquaman " />
+
+            <CheckBox
+                android:id="@+id/favoriteCheckbox"
+                android:layout_width="@dimen/quality_size"
+                android:layout_height="@dimen/quality_size"
+                android:button="@drawable/favorite_checkbox_selector"
+                app:layout_constraintBottom_toBottomOf="@id/movieTitle"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintTop_toTopOf="@id/movieTitle" />
+
+            <Button
+                android:id="@+id/watchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:background="@drawable/button_background"
+                android:text="@string/watch"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_micro"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/movieTitle" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/movieRating"
+                style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/colorControlNormal"
+                android:stepSize="0.5"
+                app:layout_constraintBottom_toBottomOf="@id/watchButton"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintTop_toTopOf="@id/watchButton"
+                tools:rating="5" />
+
+            <TextView
+                android:id="@+id/movieDescription"
+                style="@style/MovieContentText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_large"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/watchButton"
+                tools:text="In 1985 Maine, lighthouse keeper Thomas Curry rescues Atlanna, the queen of the underwater nation of Atlantis, during a storm. They eventually fall in love and have a son named Arthur, who is born with the power to communicate with marine lifeforms. " />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/actorsRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/movieDescription"
+                tools:listitem="@layout/item_actor" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/labelsEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="studioLabel,genreLabel,yearLabel" />
+
+            <TextView
+                android:id="@+id/studioLabel"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:text="@string/studio"
+                app:layout_constraintEnd_toEndOf="@id/labelsEnd"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/actorsRecyclerView" />
+
+            <TextView
+                android:id="@+id/studioTitle"
+                style="@style/MovieContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
+                app:layout_constraintBaseline_toBaselineOf="@id/studioLabel"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/labelsEnd"
+                tools:text="Warner Bros" />
+
+            <TextView
+                android:id="@+id/genreLabel"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:text="@string/genre"
+                app:layout_constraintEnd_toEndOf="@id/labelsEnd"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/studioLabel" />
+
+            <TextView
+                android:id="@+id/genreTitle"
+                style="@style/MovieContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
+                app:layout_constraintBaseline_toBaselineOf="@id/genreLabel"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/labelsEnd"
+                tools:text="Action, Adventure, Fantasy " />
+
+            <TextView
+                android:id="@+id/yearLabel"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/material_margin_normal"
+                android:text="@string/year"
+                app:layout_constraintEnd_toEndOf="@id/labelsEnd"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/content_start_guideline"
+                app:layout_constraintTop_toBottomOf="@id/genreLabel" />
+
+            <TextView
+                android:id="@+id/yearTitle"
+                style="@style/MovieContentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
+                app:layout_constraintBaseline_toBaselineOf="@id/yearLabel"
+                app:layout_constraintEnd_toEndOf="@id/content_end_guideline"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/labelsEnd"
+                tools:text="2018" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

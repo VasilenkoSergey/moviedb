@@ -15,6 +15,7 @@ import io.vasilenko.moviedb.data.Movie
 import io.vasilenko.moviedb.databinding.FeedFragmentBinding
 import io.vasilenko.moviedb.ui.common.afterTextChanged
 import io.vasilenko.moviedb.ui.common.viewBinding
+import io.vasilenko.moviedb.ui.feed.FeedFragmentDirections.Companion.actionFeedToDetails
 import timber.log.Timber
 
 class FeedFragment : Fragment(R.layout.feed_fragment) {
@@ -76,9 +77,8 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     }
 
     private fun openMovieDetails(movie: Movie) {
-        val bundle = Bundle()
-        bundle.putString(KEY_TITLE, movie.title)
-        findNavController().navigate(R.id.movie_details_fragment, bundle, options)
+        val action = actionFeedToDetails(movie.id)
+        findNavController().navigate(action, options)
     }
 
     private fun openSearch(searchText: String) {

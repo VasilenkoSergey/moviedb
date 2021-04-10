@@ -1,6 +1,7 @@
 package io.vasilenko.moviedb.data
 
-class Movie(
+data class Movie(
+    var id: Long = 0,
     var title: String? = "",
     var voteAverage: Double = 0.0,
     var imagePath: String? = ""

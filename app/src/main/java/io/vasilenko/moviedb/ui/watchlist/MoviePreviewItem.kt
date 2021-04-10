@@ -1,11 +1,11 @@
 package io.vasilenko.moviedb.ui.watchlist
 
 import android.view.View
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.viewbinding.BindableItem
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Movie
 import io.vasilenko.moviedb.databinding.ItemSmallBinding
+import io.vasilenko.moviedb.ui.common.load
 
 class MoviePreviewItem(
     private val movie: Movie,
@@ -20,12 +20,11 @@ class MoviePreviewItem(
 
     override fun bind(binding: ItemSmallBinding, position: Int) {
         with(binding) {
+            movie.imagePath?.let { imagePreview.load(it) }
+
             imagePreview.setOnClickListener {
                 onClick.invoke(movie)
             }
-            Picasso.get()
-                .load(movie.imagePath)
-                .into(imagePreview)
         }
     }
 }

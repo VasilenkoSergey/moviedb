@@ -1,11 +1,11 @@
 package io.vasilenko.moviedb.ui.feed
 
 import android.view.View
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.viewbinding.BindableItem
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Movie
 import io.vasilenko.moviedb.databinding.ItemWithTextBinding
+import io.vasilenko.moviedb.ui.common.load
 
 class MovieItem(
     private val movie: Movie,
@@ -22,13 +22,10 @@ class MovieItem(
         with(binding) {
             description.text = movie.title
             movieRating.rating = movie.rating
+            movie.imagePath?.let { imagePreview.load(it) }
             content.setOnClickListener {
                 onClick.invoke(movie)
             }
-
-            Picasso.get()
-                .load(movie.imagePath)
-                .into(imagePreview)
         }
     }
 }
