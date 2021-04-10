@@ -34,7 +34,6 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details_fragment) {
         }.toList()
 
         with(binding) {
-            toolbar.inflateMenu(R.menu.movie_details_menu)
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
