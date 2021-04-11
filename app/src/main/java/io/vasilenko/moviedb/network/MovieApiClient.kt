@@ -8,6 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object MovieApiClient {
 
+    fun moviesApi(): MoviesApi {
+        return getRetrofit(getOkHttp()).create(MoviesApi::class.java)
+    }
+
     private fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)

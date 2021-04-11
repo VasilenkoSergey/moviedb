@@ -9,13 +9,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import io.vasilenko.moviedb.BuildConfig
 import io.vasilenko.moviedb.R
-import io.vasilenko.moviedb.data.MockRepository
-import io.vasilenko.moviedb.data.Movie
+import io.vasilenko.moviedb.data.*
 import io.vasilenko.moviedb.databinding.FeedFragmentBinding
+import io.vasilenko.moviedb.network.dto.MoviesResponseDto
 import io.vasilenko.moviedb.ui.common.afterTextChanged
 import io.vasilenko.moviedb.ui.common.viewBinding
 import io.vasilenko.moviedb.ui.feed.FeedFragmentDirections.Companion.actionFeedToDetails
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import timber.log.Timber
 
 class FeedFragment : Fragment(R.layout.feed_fragment) {
@@ -47,33 +51,44 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
             }
         }
 
-        val moviesList = listOf(
-            MainCardContainer(
-                R.string.recommended,
-                MockRepository.getRecommendedMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(
-                            movie
+        binding.moviesRecyclerView.adapter = adapter.apply {
+            if (itemCount == 0) {
+                NowPlayingMoviesRepository.getAll().enqueue(responseCallback(R.string.recommended))
+                UpcomingMoviesRepository.getAll().enqueue(responseCallback(R.string.upcoming))
+                PopularMoviesRepository.getAll().enqueue(responseCallback(R.string.popular))
+            }
+        }
+    }
+
+    private fun responseCallback(title: Int): Callback<MoviesResponseDto> {
+        return object : Callback<MoviesResponseDto> {
+
+            override fun onResponse(
+                call: Call<MoviesResponseDto>,
+                response: Response<MoviesResponseDto>
+            ) {
+                response.body()?.movies?.map {
+                    MovieItem(
+                        Movie(
+                            id = it.id.toLong(),
+                            title = it.title,
+                            voteAverage = it.rating,
+                            imagePath = it.posterPath?.let { path ->
+                                BuildConfig.THE_MOVIE_DATABASE_POSTER_BASE_URL + path
+                            }
                         )
-                    }
-                }.toList()
-            )
-        )
-
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
-
-        val newMoviesList = listOf(
-            MainCardContainer(
-                R.string.upcoming,
-                MockRepository.getNewMovies().map {
-                    MovieItem(it) { movie ->
+                    ) { movie ->
                         openMovieDetails(movie)
                     }
-                }.toList()
-            )
-        )
+                }?.let { movies ->
+                    adapter.add(MainCardContainer(title, movies))
+                }
+            }
 
-        adapter.apply { addAll(newMoviesList) }
+            override fun onFailure(call: Call<MoviesResponseDto>, t: Throwable) {
+                Timber.e(t)
+            }
+        }
     }
 
     private fun openMovieDetails(movie: Movie) {
