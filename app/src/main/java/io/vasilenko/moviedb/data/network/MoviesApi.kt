@@ -1,8 +1,8 @@
-package io.vasilenko.moviedb.network
+package io.vasilenko.moviedb.data.network
 
-import io.vasilenko.moviedb.network.dto.MovieCreditsDto
-import io.vasilenko.moviedb.network.dto.MovieDto
-import io.vasilenko.moviedb.network.dto.MoviesResponseDto
+import io.vasilenko.moviedb.data.network.dto.MovieCreditsDto
+import io.vasilenko.moviedb.data.network.dto.MovieDto
+import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.R
-import io.vasilenko.moviedb.data.MockRepository
+import io.vasilenko.moviedb.data.local.MockRepository
 import io.vasilenko.moviedb.databinding.FragmentWatchlistBinding
 import io.vasilenko.moviedb.ui.common.viewBinding
 

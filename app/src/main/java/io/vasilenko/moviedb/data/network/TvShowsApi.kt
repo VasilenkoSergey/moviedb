@@ -1,6 +1,6 @@
-package io.vasilenko.moviedb.network
+package io.vasilenko.moviedb.data.network
 
-import io.vasilenko.moviedb.network.dto.TvShowsResponseDto
+import io.vasilenko.moviedb.data.network.dto.TvShowsResponseDto
 import retrofit2.Call
 import retrofit2.http.GET
 

@@ -12,8 +12,11 @@ import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.BuildConfig
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.*
+import io.vasilenko.moviedb.data.repository.NowPlayingMoviesRepository
+import io.vasilenko.moviedb.data.repository.PopularMoviesRepository
+import io.vasilenko.moviedb.data.repository.UpcomingMoviesRepository
 import io.vasilenko.moviedb.databinding.FeedFragmentBinding
-import io.vasilenko.moviedb.network.dto.MoviesResponseDto
+import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
 import io.vasilenko.moviedb.ui.common.afterTextChanged
 import io.vasilenko.moviedb.ui.common.viewBinding
 import io.vasilenko.moviedb.ui.feed.FeedFragmentDirections.Companion.actionFeedToDetails
@@ -113,7 +116,6 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     companion object {
         const val MIN_LENGTH = 3
-        const val KEY_TITLE = "title"
         const val KEY_SEARCH = "search"
     }
 }

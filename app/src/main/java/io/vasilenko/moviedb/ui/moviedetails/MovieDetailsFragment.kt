@@ -11,10 +11,10 @@ import io.vasilenko.moviedb.BuildConfig
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Actor
 import io.vasilenko.moviedb.data.MovieDetails
-import io.vasilenko.moviedb.data.MovieDetailsRepository
+import io.vasilenko.moviedb.data.repository.MovieDetailsRepository
 import io.vasilenko.moviedb.databinding.MovieDetailsFragmentBinding
-import io.vasilenko.moviedb.network.dto.MovieCreditsDto
-import io.vasilenko.moviedb.network.dto.MovieDto
+import io.vasilenko.moviedb.data.network.dto.MovieCreditsDto
+import io.vasilenko.moviedb.data.network.dto.MovieDto
 import io.vasilenko.moviedb.ui.common.load
 import io.vasilenko.moviedb.ui.common.viewBinding
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package io.vasilenko.moviedb.network
+package io.vasilenko.moviedb.data.network
 
 import io.vasilenko.moviedb.BuildConfig
 import okhttp3.OkHttpClient
@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object MovieApiClient {
+object NetworkProvider {
 
     fun moviesApi(): MoviesApi {
         return getRetrofit(getOkHttp()).create(MoviesApi::class.java)

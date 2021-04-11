@@ -7,10 +7,10 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.vasilenko.moviedb.BuildConfig
 import io.vasilenko.moviedb.R
-import io.vasilenko.moviedb.data.Movie
-import io.vasilenko.moviedb.data.PopularTvShowsRepository
+import io.vasilenko.moviedb.data.TvShow
+import io.vasilenko.moviedb.data.network.dto.TvShowsResponseDto
+import io.vasilenko.moviedb.data.repository.PopularTvShowsRepository
 import io.vasilenko.moviedb.databinding.TvShowsFragmentBinding
-import io.vasilenko.moviedb.network.dto.TvShowsResponseDto
 import io.vasilenko.moviedb.ui.common.viewBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,9 +43,9 @@ class TvShowsFragment : Fragment(R.layout.tv_shows_fragment) {
             ) {
                 response.body()?.tvShows?.map {
                     TvShowItem(
-                        Movie(
+                        TvShow(
                             id = it.id,
-                            title = it.title,
+                            name = it.name,
                             voteAverage = it.rating,
                             imagePath = it.posterPath?.let { path ->
                                 BuildConfig.THE_MOVIE_DATABASE_POSTER_BASE_URL + path

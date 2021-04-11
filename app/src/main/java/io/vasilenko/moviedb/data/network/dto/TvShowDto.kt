@@ -1,4 +1,4 @@
-package io.vasilenko.moviedb.network.dto
+package io.vasilenko.moviedb.data.network.dto
 
 import com.google.gson.annotations.SerializedName
 
@@ -8,7 +8,7 @@ data class TvShowDto(
     val id: Int,
 
     @SerializedName("name")
-    var title: String,
+    var name: String,
 
     @SerializedName("vote_average")
     val rating: Double,
