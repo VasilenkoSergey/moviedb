@@ -14,5 +14,20 @@ data class MovieDto(
     val rating: Double,
 
     @SerializedName("poster_path")
-    var posterPath: String? = null
+    var posterPath: String?,
+
+    @SerializedName("overview")
+    var overview: String?,
+
+    @SerializedName("backdrop_path")
+    var backdropPath: String?,
+
+    @SerializedName("genres")
+    var genres: List<GenreDto>?,
+
+    @SerializedName("production_companies")
+    var productionCompanies: List<ProductionCompaniesDto>?,
+
+    @SerializedName("release_date")
+    var releaseDate: String?
 )

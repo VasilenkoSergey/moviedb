@@ -70,7 +70,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
                 response.body()?.movies?.map {
                     MovieItem(
                         Movie(
-                            id = it.id.toLong(),
+                            id = it.id,
                             title = it.title,
                             voteAverage = it.rating,
                             imagePath = it.posterPath?.let { path ->
