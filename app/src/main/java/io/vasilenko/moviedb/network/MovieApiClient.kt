@@ -12,6 +12,10 @@ object MovieApiClient {
         return getRetrofit(getOkHttp()).create(MoviesApi::class.java)
     }
 
+    fun tvShowsApi(): TvShowsApi {
+        return getRetrofit(getOkHttp()).create(TvShowsApi::class.java)
+    }
+
     private fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
