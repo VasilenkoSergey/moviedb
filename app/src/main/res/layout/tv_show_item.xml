@@ -29,6 +29,7 @@
         android:textAllCaps="true"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@id/twShowRating"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/tvShowImage"
         app:layout_constraintTop_toBottomOf="@id/tvShowImage"
         tools:text="The Walking Dead The Walking DeadThe Walking Dead" />

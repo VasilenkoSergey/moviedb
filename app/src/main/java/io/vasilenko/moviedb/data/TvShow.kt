@@ -1,8 +1,8 @@
 package io.vasilenko.moviedb.data
 
-data class Movie(
+data class TvShow(
     var id: Int = 0,
-    var title: String? = "",
+    var name: String? = "",
     var voteAverage: Double = 0.0,
     var imagePath: String? = ""
 ) {

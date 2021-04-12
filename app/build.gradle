@@ -20,6 +20,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField 'String', 'THE_MOVIE_DATABASE_API', keystoreProperties['THE_MOVIE_DATABASE_API']
+        buildConfigField 'String', 'THE_MOVIE_DATABASE_API_BASE_URL', '"https://api.themoviedb.org/3/"'
+        buildConfigField 'String', 'THE_MOVIE_DATABASE_POSTER_BASE_URL', '"https://image.tmdb.org/t/p/w342"'
+        buildConfigField 'String', 'THE_MOVIE_DATABASE_BACKDROP_BASE_URL', '"https://image.tmdb.org/t/p/w780"'
+        buildConfigField 'String', 'THE_MOVIE_DATABASE_PROFILE_BASE_URL', '"https://image.tmdb.org/t/p/w90_and_h90_face/"'
     }
     buildTypes {
         release {
@@ -79,4 +83,9 @@ dependencies {
 
     // Log
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
 }
