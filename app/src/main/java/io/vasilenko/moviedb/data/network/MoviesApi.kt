@@ -1,5 +1,6 @@
 package io.vasilenko.moviedb.data.network
 
+import io.reactivex.Single
 import io.vasilenko.moviedb.data.network.dto.MovieCreditsDto
 import io.vasilenko.moviedb.data.network.dto.MovieDto
 import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
@@ -19,8 +20,8 @@ interface MoviesApi {
     fun getPopularMovies(): Call<MoviesResponseDto>
 
     @GET("movie/{id}")
-    fun getMovie(@Path("id") id: Int): Call<MovieDto>
+    fun getMovie(@Path("id") id: Int): Single<MovieDto>
 
     @GET("movie/{id}/credits")
-    fun getMovieCredits(@Path("id") id: Int): Call<MovieCreditsDto>
+    fun getMovieCredits(@Path("id") id: Int): Single<MovieCreditsDto>
 }

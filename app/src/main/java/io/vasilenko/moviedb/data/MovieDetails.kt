@@ -1,7 +1,7 @@
 package io.vasilenko.moviedb.data
 
 data class MovieDetails(
-    val id: Long = 0,
+    val id: Int = 0,
     val title: String? = "",
     val description: String? = "",
     val actors: List<Actor> = emptyList(),
