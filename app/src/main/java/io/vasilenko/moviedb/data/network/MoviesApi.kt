@@ -11,13 +11,13 @@ import retrofit2.http.Path
 interface MoviesApi {
 
     @GET("movie/now_playing")
-    fun getNowPlayingMovies(): Call<MoviesResponseDto>
+    fun getNowPlayingMovies(): Single<MoviesResponseDto>
 
     @GET("movie/upcoming")
-    fun getUpcomingMovies(): Call<MoviesResponseDto>
+    fun getUpcomingMovies(): Single<MoviesResponseDto>
 
     @GET("movie/popular")
-    fun getPopularMovies(): Call<MoviesResponseDto>
+    fun getPopularMovies(): Single<MoviesResponseDto>
 
     @GET("movie/{id}")
     fun getMovie(@Path("id") id: Int): Single<MovieDto>

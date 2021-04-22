@@ -4,28 +4,31 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.annotation.StringRes
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import io.reactivex.Single.zip
+import io.reactivex.functions.Function3
 import io.vasilenko.moviedb.BuildConfig
 import io.vasilenko.moviedb.R
-import io.vasilenko.moviedb.data.*
+import io.vasilenko.moviedb.data.FeedMovies
+import io.vasilenko.moviedb.data.Movie
+import io.vasilenko.moviedb.data.network.dto.MovieDto
+import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
 import io.vasilenko.moviedb.data.repository.NowPlayingMoviesRepository
 import io.vasilenko.moviedb.data.repository.PopularMoviesRepository
 import io.vasilenko.moviedb.data.repository.UpcomingMoviesRepository
 import io.vasilenko.moviedb.databinding.FeedFragmentBinding
-import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
+import io.vasilenko.moviedb.ui.common.BaseFragment
 import io.vasilenko.moviedb.ui.common.afterTextChanged
+import io.vasilenko.moviedb.ui.common.applySchedulers
 import io.vasilenko.moviedb.ui.common.viewBinding
 import io.vasilenko.moviedb.ui.feed.FeedFragmentDirections.Companion.actionFeedToDetails
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
 
-class FeedFragment : Fragment(R.layout.feed_fragment) {
+class FeedFragment : BaseFragment(R.layout.feed_fragment) {
 
     private val binding by viewBinding { FeedFragmentBinding.bind(it) }
 
@@ -56,41 +59,47 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
         binding.moviesRecyclerView.adapter = adapter.apply {
             if (itemCount == 0) {
-                NowPlayingMoviesRepository.getAll().enqueue(responseCallback(R.string.recommended))
-                UpcomingMoviesRepository.getAll().enqueue(responseCallback(R.string.upcoming))
-                PopularMoviesRepository.getAll().enqueue(responseCallback(R.string.popular))
+                addDisposable(zip(
+                    NowPlayingMoviesRepository.getAll(),
+                    UpcomingMoviesRepository.getAll(),
+                    PopularMoviesRepository.getAll(),
+                    Function3<MoviesResponseDto, MoviesResponseDto, MoviesResponseDto, FeedMovies>
+                    { nowPlaying, upcoming, popular ->
+                        FeedMovies(
+                            nowPlayingMovies = nowPlaying.movies,
+                            upcomingPlayingMovies = upcoming.movies,
+                            popularMovies = popular.movies
+                        )
+                    }
+                ).applySchedulers()
+                    .subscribe({
+                        renderMovies(it.nowPlayingMovies, R.string.recommended)
+                        renderMovies(it.upcomingPlayingMovies, R.string.upcoming)
+                        renderMovies(it.popularMovies, R.string.popular)
+                    }, {
+                        Timber.e(it)
+                    })
+                )
             }
         }
     }
 
-    private fun responseCallback(title: Int): Callback<MoviesResponseDto> {
-        return object : Callback<MoviesResponseDto> {
-
-            override fun onResponse(
-                call: Call<MoviesResponseDto>,
-                response: Response<MoviesResponseDto>
-            ) {
-                response.body()?.movies?.map {
-                    MovieItem(
-                        Movie(
-                            id = it.id,
-                            title = it.title,
-                            voteAverage = it.rating,
-                            imagePath = it.posterPath?.let { path ->
-                                BuildConfig.THE_MOVIE_DATABASE_POSTER_BASE_URL + path
-                            }
-                        )
-                    ) { movie ->
-                        openMovieDetails(movie)
+    private fun renderMovies(movies: List<MovieDto>, @StringRes title: Int) {
+        movies.map {
+            MovieItem(
+                Movie(
+                    id = it.id,
+                    title = it.title,
+                    voteAverage = it.rating,
+                    imagePath = it.posterPath?.let { path ->
+                        BuildConfig.THE_MOVIE_DATABASE_POSTER_BASE_URL + path
                     }
-                }?.let { movies ->
-                    adapter.add(MainCardContainer(title, movies))
-                }
+                )
+            ) { movie ->
+                openMovieDetails(movie)
             }
-
-            override fun onFailure(call: Call<MoviesResponseDto>, t: Throwable) {
-                Timber.e(t)
-            }
+        }.let {
+            adapter.add(MainCardContainer(title, it))
         }
     }
 
