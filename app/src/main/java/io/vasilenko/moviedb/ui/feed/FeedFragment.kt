@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.annotation.StringRes
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -72,6 +74,8 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
                         )
                     }
                 ).applySchedulers()
+                    .doOnSubscribe { binding.progressBar.visibility = VISIBLE }
+                    .doFinally { binding.progressBar.visibility = GONE }
                     .subscribe({
                         renderMovies(it.nowPlayingMovies, R.string.recommended)
                         renderMovies(it.upcomingPlayingMovies, R.string.upcoming)
