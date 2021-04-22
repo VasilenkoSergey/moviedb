@@ -4,7 +4,6 @@ import io.reactivex.Single
 import io.vasilenko.moviedb.data.network.dto.MovieCreditsDto
 import io.vasilenko.moviedb.data.network.dto.MovieDto
 import io.vasilenko.moviedb.data.network.dto.MoviesResponseDto
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 

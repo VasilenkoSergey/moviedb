@@ -9,7 +9,7 @@ import io.vasilenko.moviedb.ui.moviedetails.ActorItem
 
 object MovieDetailsMapper {
 
-    fun mapMovieDtoToModel(movie: MovieDto): MovieDetails {
+    fun mapMovieDtoToModel(movie: MovieDto, actors: List<Actor>): MovieDetails {
         return MovieDetails(
             id = movie.id,
             title = movie.title,
@@ -24,7 +24,8 @@ object MovieDetailsMapper {
             genre = movie.genres?.joinToString { genre ->
                 "${genre.name}"
             },
-            year = movie.releaseDate
+            year = movie.releaseDate,
+            actors = actors
         )
     }
 

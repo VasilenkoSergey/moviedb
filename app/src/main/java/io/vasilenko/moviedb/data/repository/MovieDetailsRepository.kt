@@ -12,7 +12,7 @@ object MovieDetailsRepository {
         return NetworkProvider.moviesApi().getMovie(id)
     }
 
-    fun getCreditsById(id: Int): Single<List<Actor>> {
+    fun getActorsByMovieId(id: Int): Single<List<Actor>> {
         return NetworkProvider.moviesApi().getMovieCredits(id).map {
             MovieDetailsMapper.mapActorsDtoToModel(it.cast)
         }

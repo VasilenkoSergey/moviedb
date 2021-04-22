@@ -6,10 +6,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import io.reactivex.Single.zip
+import io.reactivex.functions.BiFunction
 import io.vasilenko.moviedb.R
 import io.vasilenko.moviedb.data.Actor
 import io.vasilenko.moviedb.data.MovieDetails
 import io.vasilenko.moviedb.data.mapper.MovieDetailsMapper
+import io.vasilenko.moviedb.data.network.dto.MovieDto
 import io.vasilenko.moviedb.data.repository.MovieDetailsRepository
 import io.vasilenko.moviedb.databinding.MovieDetailsFragmentBinding
 import io.vasilenko.moviedb.ui.common.BaseFragment
@@ -39,34 +42,24 @@ class MovieDetailsFragment : BaseFragment(R.layout.movie_details_fragment) {
             findNavController().popBackStack()
         }
 
-        addDisposable(
-            MovieDetailsRepository.getById(id)
-                .applySchedulers()
-                .subscribe(
-                    {
-                        renderMovieDetails(MovieDetailsMapper.mapMovieDtoToModel(it))
-                    },
-                    {
-                        Timber.e(it)
-                    }
-                )
-        )
-
-        addDisposable(
-            MovieDetailsRepository.getCreditsById(id)
-                .applySchedulers()
-                .subscribe(
-                    {
-                        renderActors(it)
-                    },
-                    {
-                        Timber.e(it)
-                    }
-                )
+        addDisposable(zip(
+            MovieDetailsRepository.getById(id),
+            MovieDetailsRepository.getActorsByMovieId(id),
+            BiFunction<MovieDto, List<Actor>, MovieDetails> { movie, actors ->
+                MovieDetailsMapper.mapMovieDtoToModel(movie, actors)
+            }
+        ).applySchedulers()
+            .subscribe({
+                renderMovieDetails(it)
+            }, {
+                Timber.e(it)
+            })
         )
     }
 
     private fun renderMovieDetails(movie: MovieDetails) {
+        val space = resources.getDimensionPixelSize(R.dimen.material_margin_large)
+
         with(binding) {
             movie.imageBackdropPath?.let { movieBackdropImage.load(it) }
             movieTitle.text = movie.title
@@ -75,19 +68,12 @@ class MovieDetailsFragment : BaseFragment(R.layout.movie_details_fragment) {
             studioTitle.text = movie.studio
             genreTitle.text = movie.genre
             yearTitle.text = movie.year
-        }
-    }
 
-    private fun renderActors(actors: List<Actor>) {
-
-        val space = resources.getDimensionPixelSize(R.dimen.material_margin_large)
-
-        with(binding) {
             actorsRecyclerView.addItemDecoration(
                 ActorsItemDecoration(space)
             )
             actorsRecyclerView.adapter =
-                adapter.apply { addAll(MovieDetailsMapper.mapActorModelsToItems(actors)) }
+                adapter.apply { addAll(MovieDetailsMapper.mapActorModelsToItems(movie.actors)) }
         }
     }
 }
