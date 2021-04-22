@@ -30,6 +30,8 @@ class TvShowsFragment : BaseFragment(R.layout.tv_shows_fragment) {
         addDisposable(
             PopularTvShowsRepository.getAll()
                 .applySchedulers()
+                .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
+                .doFinally { binding.progressBar.visibility = View.GONE }
                 .subscribe({
                     adapter.addAll(
                         PopularTvShowsMapper.mapTvShowsModelsToItems(it)
