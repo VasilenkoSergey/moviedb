@@ -24,7 +24,6 @@ import io.vasilenko.moviedb.data.repository.PopularMoviesRepository
 import io.vasilenko.moviedb.data.repository.UpcomingMoviesRepository
 import io.vasilenko.moviedb.databinding.FeedFragmentBinding
 import io.vasilenko.moviedb.ui.common.BaseFragment
-import io.vasilenko.moviedb.ui.common.afterTextChanged
 import io.vasilenko.moviedb.ui.common.applySchedulers
 import io.vasilenko.moviedb.ui.common.viewBinding
 import io.vasilenko.moviedb.ui.feed.FeedFragmentDirections.Companion.actionFeedToDetails
@@ -52,12 +51,16 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
     }
 
     private fun initViews() {
-        binding.feedHeader.feedSearchToolbar.searchEditText.afterTextChanged {
-            Timber.d(it.toString())
-            if (it.toString().length > MIN_LENGTH) {
-                openSearch(it.toString())
-            }
-        }
+        addDisposable(
+            binding.feedHeader.feedSearchToolbar.getSearchText()
+                .applySchedulers()
+                .subscribe({ text ->
+                    Timber.d("Search text: $text")
+                    openSearch(text)
+                }, {
+                    Timber.e(it)
+                })
+        )
 
         binding.moviesRecyclerView.adapter = adapter.apply {
             if (itemCount == 0) {
@@ -128,7 +131,6 @@ class FeedFragment : BaseFragment(R.layout.feed_fragment) {
     }
 
     companion object {
-        const val MIN_LENGTH = 3
         const val KEY_SEARCH = "search"
     }
 }
