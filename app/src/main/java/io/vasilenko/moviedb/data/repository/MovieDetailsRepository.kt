@@ -1,14 +1,20 @@
 package io.vasilenko.moviedb.data.repository
 
+import io.reactivex.Single
+import io.vasilenko.moviedb.data.Actor
+import io.vasilenko.moviedb.data.mapper.MovieDetailsMapper
 import io.vasilenko.moviedb.data.network.NetworkProvider
-import io.vasilenko.moviedb.data.network.dto.MovieCreditsDto
 import io.vasilenko.moviedb.data.network.dto.MovieDto
-import retrofit2.Call
 
 object MovieDetailsRepository {
 
-    fun getById(id: Int): Call<MovieDto> = NetworkProvider.moviesApi().getMovie(id)
+    fun getById(id: Int): Single<MovieDto> {
+        return NetworkProvider.moviesApi().getMovie(id)
+    }
 
-    fun getCreditsById(id: Int): Call<MovieCreditsDto> =
-        NetworkProvider.moviesApi().getMovieCredits(id)
+    fun getActorsByMovieId(id: Int): Single<List<Actor>> {
+        return NetworkProvider.moviesApi().getMovieCredits(id).map {
+            MovieDetailsMapper.mapActorsDtoToModel(it.cast)
+        }
+    }
 }
